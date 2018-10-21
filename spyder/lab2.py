@@ -41,6 +41,7 @@ print(matrix)
 
 from scipy.linalg import hilbert
 from random import randint as rng
+import numpy as np
 
 matrix = hilbert(3)
 
@@ -50,7 +51,7 @@ def myHilbert(n: int)->list:
         return None
     if n == 1:
         return [1]
-    temp = numpy.zeros((n,n), float)
+    temp = np.zeros((n,n), float)
     for j in range(n):
         for i in range(n):
             temp[j, i] = 1/(i+j+2-1)
@@ -129,17 +130,77 @@ from numpy import multiply as mul
 from numpy import array
 from numpy import dot
 from numpy import matmul
+import copy
 
 v1 = array([1, 3, 13])
 v2 = array([8, 5, -2])
+v3 = copy.deepcopy(v1)
 
-print(mul(v1, 4))
-print(mul(-1,v2) + 2)
-print()
-print(mul(v1, v2))
+print(dot(v1, 4), "\n")
+print(dot(-1,v2) + 2, "\n")
+print(matmul(v1,v2), "\n")    
+print(mul(v1, v2), "\n")
+
+'''
+t1 = [[1, 0], [0, 1]]
+t2 = [[4, 1], [2, 2]]
+
+print(matmul(t1, t2), "\n")
+print(mul(t1, t2), "\n")
+'''
 
 #%% Zadanie 7
+import numpy as np
+m1 = array([[1, -7, 3], [-12, 3, 4], [5, 13, -3]])
 
+v2 = array([8, 5, -2])
+
+print(dot(3, m1))
+print(dot(3, m1) + 1, "\n")
+
+def myTransNxN(m: list)->list:
+    temp = array([[0]*len(m[0])]*len(m))
+    print(temp, "\n")
+    for j in range(0, len(m)):
+        for i in range(0, len(m[j])):
+            temp[j][i] = m[i][j]
+
+    return array(temp)
+
+v2 = v2[np.newaxis]
+print(m1, "\n")
+print(myTransNxN(m1), "\n")
+print(matmul(m1, v1), "\n")
+print(mul(v2.T, m1), "\n")
+#%% Zadanie 8
+from numpy.linalg import det
+
+def solveM(wsp, wyn)->list:
+    mx = [0]*(len(wyn)+1)
+    mx[len(wyn)] = det(wsp)
+    for i in range(len(wsp)):
+        for j in range(len(wsp[i])):
+            wsp[j][i], wyn[j] = wyn[j], wsp[j][i]
+            
+        #print("#", det(wsp), "\n", wsp, "\n##", mx[3])
+              
+        mx[i] = det(wsp)/mx[len(wyn)]
+        for j in range(len(wsp[i])):
+            wsp[j][i], wyn[j] = wyn[j], wsp[j][i]
+    return list(mx[:-1])
+
+wspolczynniki = array([[1, 3, 2], [-1, 2, 3], [8, 2, -3]])
+wyniki = array([7, -2, 28])
+
+print(solveM(wspolczynniki, wyniki))
+#%% Test
+        
+m = [[0]*3]*3
+
+temp = array([[7, 3, 2], [-2, 2, 3], [28, 2, -3]])
+print(det(wspolczynniki))
+print(det(temp))
+print(det(temp)/det(wspolczynniki))
 
 
 
