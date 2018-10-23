@@ -194,7 +194,7 @@ wyniki = array([7, -2, 28])
 
 print(solveM(wspolczynniki, wyniki))
 #%% Test
-        
+import random
 m = [[0]*3]*3
 
 temp = array([[7, 3, 2], [-2, 2, 3], [28, 2, -3]])
@@ -202,7 +202,8 @@ print(det(wspolczynniki))
 print(det(temp))
 print(det(temp)/det(wspolczynniki))
 
-
+sd = [random.randint(0, 10)]*10
+print(sd)
 
 
 
