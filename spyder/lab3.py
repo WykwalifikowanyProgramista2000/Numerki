@@ -5,11 +5,9 @@ P1 = b - 1/(1/b) + 0.1
 P2 = b + 0.1 - 1/(1/b)
 
 #%% Zadanie 2
-
 import numpy as np
 import math
 import matplotlib.pyplot as plt
-
 
 def Gp(n: int)->list:
     temp = []
@@ -18,8 +16,6 @@ def Gp(n: int)->list:
     return np.array(temp)
 
 wyn = Gp(15)
-#print(wyn, "XXX", len(wyn))
-
 bez = []
 wzg = []
 
@@ -40,9 +36,6 @@ def fwzg(wyn: list)->list:
 bez = fbez(wyn)
 wzg = fwzg(wyn)
 
-#print("bez:", bez, "\nwzg:", wzg)
-
-
 n = np.linspace(0, 14, 15)
 plt.semilogy(n, list(bez))
 plt.legend("bezwzględny")
@@ -61,7 +54,7 @@ import math
 
 def myE(stop: int)->float:
     temp = 0
-    for n in range(1, stop+1):
+    for n in range(0, stop):
         temp += 1/math.factorial(n)
     return temp
 
@@ -70,31 +63,24 @@ bez10 = math.fabs(math.e - myE(10))
 wzg5 = math.fabs((math.e - myE(5))/math.e)
 wzg10 = math.fabs((math.e - myE(10))/math.e)
 
-print("Błędy dla n = 5 to:\n___Bezwzględny:", bez5, "\n___Względny:", wzg5)
-print("Błędy dla n = 10 to:\n___Bezwzględny:", bez10, "\n___Względny:", wzg10)
+print("\nmath.e:", math.e)
+print("Dla n = 5 :\ne = ", myE(5), "Błędy:\n___Bezwzględny:", bez5, "\n___Względny:", wzg5)
+print("Dla n = 10 :\ne = ", myE(10), "Błędy:\n___Bezwzględny:", bez10, "\n___Względny:", wzg10)
 
 
 #%% Zadanie 4
 
+import math
 
+def myE_power_x(stop: int, x: float)->float:
+    temp = 0
+    for i in range(0, stop):
+        temp += (1/math.factorial(i))*x**i
+    return temp
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+print("\n")
+print("myE_poewr_x(10, 3):", myE_power_x(10, 3))
+print("math.exp(3)", math.exp(3))
+print("Błąd bezwzględny myE_power_x(100, 3):", math.fabs(math.e**3 - myE_power_x(100, 3)))
+print("Błąd bezwzględny math.exp(3):", math.fabs(math.e**3 - math.exp(3)))
 
