@@ -84,3 +84,36 @@ print("math.exp(3)", math.exp(3))
 print("Błąd bezwzględny myE_power_x(100, 3):", math.fabs(math.e**3 - myE_power_x(100, 3)))
 print("Błąd bezwzględny math.exp(3):", math.fabs(math.e**3 - math.exp(3)))
 
+
+#%% Zadanie 5
+
+def my8bitFloatPoint(num: list)->float:
+    mantissa = 0
+    exponent = 0
+    base = 2
+    for i in range(1, 4):
+        mantissa += num[i]/(base**i)
+    mantissa *= (-1) if num[0] == 1 else 1
+    for i in range(7, 5, -1):
+        exponent += num[i]*(2**(i-6))
+    exponent *= (-1) if num[5] == 1 else 1
+    return mantissa*(base**exponent)
+
+aList = [1, 1, 1, 1, 0, 0, 1, 1]
+print(my8bitFloatPoint(aList))
+    
+#%% Zadanie 6
+    
+import pylab as pl
+import numpy as np
+ 
+x = np.linspace(-np.pi/2+0.1, np.pi/2-0.1, 100)
+y = np.tan(x)
+pl.plot(x, y)
+pl.show()
+
+#%% Zadanie 7
+import math
+
+pi = (math.sqrt((sum(1/(n**2) for n in range(1, 10000)))*6))
+print(pi)
