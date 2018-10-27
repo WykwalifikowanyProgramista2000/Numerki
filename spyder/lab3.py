@@ -87,11 +87,15 @@ print("Błąd bezwzględny math.exp(3):", math.fabs(math.e**3 - math.exp(3)))
 
 #%% Zadanie 5
 
+import math
+import numpy as np
+import matplotlib.pyplot as plt
+
 def my8bitFloatPoint(num: list)->float:
     mantissa = 0
     exponent = 0
     base = 2
-    for i in range(1, 4):
+    for i in range(1, 5):
         mantissa += num[i]/(base**i)
     mantissa *= (-1) if num[0] == 1 else 1
     for i in range(7, 5, -1):
@@ -99,8 +103,46 @@ def my8bitFloatPoint(num: list)->float:
     exponent *= (-1) if num[5] == 1 else 1
     return mantissa*(base**exponent)
 
+
+def myFltPt()->list:
+    temp = [[],[]]
+    base = 2
+    for j in range(1, 9):
+        mantissaMax = 0
+        mantissaMin = (1/(2**j))
+        exponent = 3
+        
+        for i in range(1, j+1):
+            mantissaMax += 1/(base**i)
+
+        temp[0].append(mantissaMin*(base**(exponent*(-1))))
+        temp[1].append(mantissaMax*(base**(exponent*(1))))
+    return temp
+
 aList = [1, 1, 1, 1, 0, 0, 1, 1]
 print(my8bitFloatPoint(aList))
+
+# Zakres
+maxi = [0, 1, 1, 1, 1, 0, 1, 1]
+mini = [0, 0, 0, 1, 1, 1, 1, 1]
+num_0_2 = [0, 1, 1, 0, 0, 1, 1, 0]
+print("a) Reprezentowany zakres to: <-", my8bitFloatPoint(maxi), ";-", my8bitFloatPoint(mini), "> + {0} + <", my8bitFloatPoint(mini), ";", my8bitFloatPoint(maxi), ">")
+print("b) Blad niedomiaru dla 0.001:", math.fabs(0.001 - my8bitFloatPoint(mini)))
+print("c) Blad nadmiaru dla 8:", math.fabs(8 - my8bitFloatPoint(maxi)))
+print("d)\n  Blad zaokraglenia bezwzgledny to:", math.fabs(0.2 - my8bitFloatPoint(num_0_2)))
+print("  Blad zaokraglenia wzgledny to:", math.fabs((0.2 - my8bitFloatPoint(num_0_2))/0.2))
+print("e)")
+fltpt = myFltPt()
+for i in range(1, 9):
+    print(i, "bit: <", fltpt[0][i-1], ";", fltpt[1][i-1], ">")
+    
+x = np.linspace(1, 8, 8)
+plt.plot(x, fltpt[0])
+plt.plot(x, fltpt[1])
+plt.title("wartosci maksymalne i minimalne")
+plt.xlabel("bity")
+plt.ylabel("wartosc")
+plt.show()
     
 #%% Zadanie 6
     
@@ -117,3 +159,7 @@ import math
 
 pi = (math.sqrt((sum(1/(n**2) for n in range(1, 10000)))*6))
 print(pi)
+
+#%% test
+
+(0.5)*(2**(-3))
