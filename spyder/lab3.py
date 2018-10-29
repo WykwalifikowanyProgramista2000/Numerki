@@ -156,10 +156,27 @@ pl.show()
 
 #%% Zadanie 7
 import math
+import matplotlib.pyplot as plt
+import numpy as np
 
+tab = []
+bzw = []
+wzg = []
 pi = (math.sqrt((sum(1/(n**2) for n in range(1, 10000)))*6))
-print(pi)
 
+for i in range(1, 101):
+    tab.append((math.sqrt((sum(1/(n**2) for n in range(1, i)))*6)))
+    bzw.append(math.fabs(tab[i-1] - math.pi))
+    wzg.append(bzw[i-1]/math.pi)
+
+x = np.linspace(1, 100, 100)
+plt.show()
+plt.plot(x, bzw)
+plt.legend("bezwzgledne")
+plt.plot(x, wzg)
+plt.legend("wzgledne")
+plt.xlabel("n")
+plt.ylabel("blad")
 #%% test
 
 (0.5)*(2**(-3))
