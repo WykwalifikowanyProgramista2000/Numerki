@@ -14,7 +14,29 @@ def splajn_1(xk: list, yk: list, xnew: list)->list:
             if x >= xk[k] and x<= xk[k+1]:
                 y.append(yk[k] + ((yk[k+1]-yk[k])*(x - xk[k]))/(xk[k+1]-xk[k]))
     return y
-       # print("x_k = {0}, x_k+1 = {1}".format(xk0, xk1))
+
+       
+def p(i, data, x):
+    n = 1
+    for j in np.arange(i):
+        n *= (data - x[j])
+    return n
+
+
+def a(i, j, x, y):
+    if i == 0:
+        return y[0]
+    elif i - j == 1:
+        return (y[i] - y[j])/(x[i] - x[j])
+    else:
+        return (a(i, j+1, x, y) - a(i-1, j, x, y))/(x[i]-x[j])
+
+
+def myNewton(data, x, y):
+    Nn = 0
+    for i in range(len(x)):
+        Nn += a(i, 0, x, y) * p(i, data, x)
+    return Nn       
         
 
 
@@ -55,13 +77,20 @@ plt.plot(data, bledy_splajnu_mojego, color='green')
 plt.show()
 
 
+#%% Porównanie interporacji splajnem st.1, st.3 i interpolacją newtona
+data = np.linspace(-1, 1, 1000)
+knots = np.linspace(-1, 1, 20)
+knots_value = fun(knots)
 
+y0 = inter.spline(knots, knots_value, data, order=1)
+y1 = inter.spline(knots, knots_value, data, order=3)
+y2 = myNewton(data, knots, knots_value)
 
-
-
-
-
-
+plt.plot(data, y0, color='green')
+plt.plot(data, y1, color='red')
+plt.plot(data, y2, color='purple')
+plt.ylim(-0.3, 2)
+plt.show()
 
 
 
