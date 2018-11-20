@@ -6,6 +6,9 @@ import scipy.interpolate as inter
 def fun(x):
     return 1/(25*(x**2) + 1)
 
+def fun_p(x):
+    return -((50*x)/((25*(x**2) + 1)**2))
+
 
 def splajn_1(xk: list, yk: list, xnew: list)->list:
     y = []
@@ -77,8 +80,9 @@ plt.plot(data, bledy_splajnu_mojego, color='green')
 plt.show()
 
 
-#%% Porównanie interporacji splajnem st.1, st.3 i interpolacją newtona
+#%% ZADANIE 5 Porównanie interporacji splajnem st.1, st.3 i interpolacją newtona
 data = np.linspace(-1, 1, 1000)
+data_value = fun(data)
 knots = np.linspace(-1, 1, 20)
 knots_value = fun(knots)
 
@@ -89,9 +93,49 @@ y2 = myNewton(data, knots, knots_value)
 plt.plot(data, y0, color='green')
 plt.plot(data, y1, color='red')
 plt.plot(data, y2, color='purple')
-plt.ylim(-0.3, 2)
+plt.title("Porównanie wyników dla wszystkich trzech interpolacji")
+plt.ylim(-0.3, 1.5)
 plt.show()
 
+bledy_bibl_spline_1 = abs(data_value - y0)
+bledy_bibl_spline_3 = abs(data_value - y1)
+bledy_myNewton = abs(data_value - y2)
+
+plt.plot(data, bledy_bibl_spline_1)
+plt.title("Bledy dla splanu bibliotecznego st.1")
+plt.show()
+
+plt.plot(data, bledy_bibl_spline_3)
+plt.title("Bledy dla splanu bibliotecznego st.3")
+plt.show()
+
+plt.plot(data, bledy_myNewton)
+plt.title("Bledy dla mojej Interpolacji Newtona")
+plt.show()
+
+#%% ZADANIE 6
+
+y1p = inter.InterpolatedUnivariateSpline(knots, knots_value,  k=1).derivative()
+y3p = inter.InterpolatedUnivariateSpline(knots, knots_value,  k=3).derivative()
+
+bledy_pochodnej_splajnu_1 = abs(y1p(data) - fun_p(data))
+bledy_pochodnej_splajnu_3 = abs(y3p(data) - fun_p(data))
+
+plt.plot(data, fun_p(data), color='red')
+plt.title("Pierwsza pochodna badanej funkcji\n")
+plt.plot(data, y1p(data), color='orange')
+plt.title("Pierwsza pochodna splajnu st.1\n")
+plt.plot(data, y3p(data))
+plt.title("Pierwsza pochodna splajnu st.3\n", color='green')
+plt.show()
+
+plt.plot(data, bledy_pochodnej_splajnu_1)
+plt.title("Bledy pierwszej pochodnej splajnu st.1")
+plt.show()
+
+plt.plot(data, bledy_pochodnej_splajnu_3)
+plt.title("Bledy pierwszej pochodnej splajnu st.3")
+plt.show()
 
 
 
